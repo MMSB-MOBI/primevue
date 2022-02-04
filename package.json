@@ -1,10 +1,10 @@
 {
-  "name": "primevue",
+  "name": "@mmsb/primevue-forked",
   "version": "3.11.0",
   "homepage": "https://www.primefaces.org/primevue",
   "repository": {
     "type": "git",
-    "url": "https://github.com/primefaces/primevue.git"
+    "url": "https://github.com/MMSB-MOBI/primevue.git"
   },
   "license": "MIT",
   "scripts": {
