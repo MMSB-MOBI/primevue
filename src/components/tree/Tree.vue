@@ -26,7 +26,7 @@ import {ObjectUtils} from 'primevue/utils';
 
 export default {
     name: 'Tree',
-    emits: ['node-expand', 'node-collapse', 'update:expandedKeys', 'update:selectionKeys', 'node-select', 'node-unselect'],
+    emits: ['node-expand', 'node-collapse', 'update:expandedKeys', 'update:selectionKeys', 'node-select', 'node-unselect', 'update:filteredKeys', 'update:filterText'],
     props: {
         value: {
             type: null,
@@ -39,6 +39,14 @@ export default {
         selectionKeys: {
             type: null,
             default: null
+        },
+        filteredKeys: {
+            type: null,
+            default: null
+        },
+        filterText: {
+            type:String, 
+            default:null
         },
         selectionMode: {
             type: String,
@@ -90,6 +98,13 @@ export default {
     watch: {
         expandedKeys(newValue) {
             this.d_expandedKeys = newValue;
+        },
+        filterValue(newValue) {
+            const filterText = newValue ? newValue.trim().toLocaleLowerCase(this.filterLocale) : ''; 
+            if(!filterText) {
+                this.$emit('update:filteredKeys', {})
+            }
+            this.$emit('update:filterText', filterText)
         }
     },
     methods: {
@@ -271,12 +286,13 @@ export default {
                     filteredNodes.push(_node);
                 }
             }
-
+            this.$emit('update:filteredKeys', filteredNodes);
             return filteredNodes;
         },
         valueToRender() {
-            if (this.filterValue && this.filterValue.trim().length > 0)
+            if (this.filterValue && this.filterValue.trim().length > 0){
                 return this.filteredValue;
+            }
             else
                 return this.value;
         }
